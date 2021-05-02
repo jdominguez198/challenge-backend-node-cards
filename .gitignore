@@ -35,6 +35,12 @@ node_modules/
 .yarn/install-state.gz
 .pnp.*
 
+# Configs
+config/local.json
+
+# Build folder
+dist
+
 # IntelliJ project files
 .idea
 *.iml
