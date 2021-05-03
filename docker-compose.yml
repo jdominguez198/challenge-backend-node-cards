@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  server:
+    build:
+      dockerfile: ./docker/server/Dockerfile
+      context: .
+    ports:
+      - "8888:8888"
+    depends_on:
+      - database
+  database:
+    image: mongo:4.4.5-bionic
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db

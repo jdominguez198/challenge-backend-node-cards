@@ -1,0 +1,12 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+dist
+data
+node_modules
+docker-compose.yml
+docker
+README.md

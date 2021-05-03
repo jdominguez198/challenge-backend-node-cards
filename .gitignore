@@ -46,3 +46,6 @@ dist
 *.iml
 out
 gen
+
+# Docker data folder
+data
