@@ -1,12 +1,15 @@
 import express from 'express';
+import morgan from 'morgan';
+
 import config from 'config';
+import assignRoutes from './routes';
 
 const app = express();
 const port = process.env.port || config.get('server.port');
 
-app.get('/', (request, response) => {
-  response.send('YEAH!');
-});
+app.use(morgan('combined'));
+
+assignRoutes(app);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);
