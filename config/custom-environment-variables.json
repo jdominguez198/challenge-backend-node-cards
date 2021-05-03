@@ -1,0 +1,15 @@
+{
+  "server": {
+    "port": "SERVER_PORT"
+  },
+  "database": {
+    "hostname": "DATABASE_HOSTNAME",
+    "port": "DATABASE_PORT",
+    "name": "DATABASE_NAME"
+  },
+  "cache": {
+    "hostname": "CACHE_HOSTNAME",
+    "port": "CACHE_PORT",
+    "db": "CACHE_DB"
+  }
+}

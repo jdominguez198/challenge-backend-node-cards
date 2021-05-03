@@ -6,8 +6,16 @@ services:
       context: .
     ports:
       - "8888:8888"
+    environment:
+      - DATABASE_HOSTNAME=database
+      - CACHE_HOSTNAME=cache
     depends_on:
       - database
+      - cache
+  cache:
+    image: redis:6.2
+    ports:
+      - "6379:6379"
   database:
     image: mongo:4.4.5-bionic
     ports:
