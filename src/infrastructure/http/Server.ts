@@ -3,8 +3,6 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import config from 'config';
 
-import auth from "./middleware/auth";
-
 export class Server {
   providersResolver: any;
   appInstance: express.Express;
@@ -26,6 +24,7 @@ export class Server {
   addThirdPartyMiddlewares () {
     this.appInstance.use(morgan('combined'));
     this.appInstance.use(bodyParser.json());
+    this.appInstance.use(bodyParser.urlencoded({extended: true}));
   }
 
   setBaseRoutes () {

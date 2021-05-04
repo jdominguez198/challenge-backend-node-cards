@@ -4,6 +4,10 @@ import { ICard } from '../../domain/ports/Card.interface';
 export interface ICardModel extends Document, ICard {}
 
 const CardSchema: Schema = new Schema({
+  owner: {
+    type: String,
+    required: true
+  },
   name: {
     type: String,
     required: false,

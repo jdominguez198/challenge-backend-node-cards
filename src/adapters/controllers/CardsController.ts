@@ -4,19 +4,20 @@ export class CardsController {
   protected appInstance: any;
   protected cardsService: ICardsService;
 
-  constructor ({ appInstance, cardsService }) {
+  constructor ({ appInstance, authMiddleware, cardsService }) {
     this.appInstance = appInstance;
     this.cardsService = cardsService as ICardsService;
-    this.initializeRoutes();
+    this.initializeRoutes(authMiddleware);
   }
 
-  protected initializeRoutes () {
-    this.appInstance.get('/v1/cards/:cardId', this.getCard);
-    this.appInstance.get('/v1/cards/', this.getCards);
-    this.appInstance.post('/v1/cards/', this.createCard);
-    this.appInstance.put('/v1/cards/', this.updateCards);
-    this.appInstance.put('/v1/cards/publish', this.publishCards(true));
-    this.appInstance.put('/v1/cards/unpublish', this.publishCards(false));
+  protected initializeRoutes (authMiddleware: any) {
+    this.appInstance.get('/v1/cards/:cardId', authMiddleware, this.getCard);
+    this.appInstance.get('/v1/cards/', authMiddleware, this.getCards);
+    this.appInstance.post('/v1/cards/', authMiddleware, this.createCard);
+    this.appInstance.put('/v1/cards/', authMiddleware, this.updateCards);
+    this.appInstance.put('/v1/cards/publish', authMiddleware, this.publishCards(true));
+    this.appInstance.put('/v1/cards/unpublish', authMiddleware, this.publishCards(false));
+    this.appInstance.get('/v1/cards-faker/:owner/:total', authMiddleware, this.fakesGenerator);
   }
 
   getCard = async (request, response, next) => {
@@ -27,7 +28,7 @@ export class CardsController {
     }
 
     try {
-      const card = await this.cardsService.getById(cardId);
+      const card = await this.cardsService.getById(cardId, request.userId);
       if (!card) {
         response.status(404).send('Card not found');
         return;
@@ -41,7 +42,7 @@ export class CardsController {
 
   getCards = async (request, response, next) => {
     try {
-      const cards = await this.cardsService.getAll();
+      const cards = await this.cardsService.getAll(request.userId);
 
       response.json(cards);
     } catch (error) {
@@ -53,7 +54,7 @@ export class CardsController {
     const data = request.body;
 
     try {
-      const card = await this.cardsService.create(data);
+      const card = await this.cardsService.create(data, request.userId);
 
       response.json(card);
     } catch (error) {
@@ -65,7 +66,7 @@ export class CardsController {
     const data = request.body;
 
     try {
-      const result = await this.cardsService.update(data);
+      const result = await this.cardsService.update(data, request.userId);
 
       response.json(result);
     } catch (error) {
@@ -85,7 +86,23 @@ export class CardsController {
       const result = await this.cardsService.update(data.map((cardId) => ({
         _id: cardId,
         published: publish
-      })));
+      })), request.userId);
+
+      response.json(result);
+    } catch (error) {
+      response.status(500).send(error.message);
+    }
+  }
+
+  fakesGenerator = async (request, response, next) => {
+    const { owner, total } = request.params;
+    if (!owner || !total) {
+      response.status(400).send('Bad request');
+      return;
+    }
+
+    try {
+      const result = await this.cardsService.fakesGenerator(owner, parseInt(total));
 
       response.json(result);
     } catch (error) {

@@ -3,6 +3,8 @@ import { CardsRepository } from '../repositories/CardsRepository';
 import { CardsFactory } from '../repositories/CardsFactory';
 import { ICard } from '../../domain/ports/Card.interface';
 
+import faker from 'faker';
+
 export class CardsService implements ICardsService {
   protected cardsRepository: CardsRepository;
   protected cardsFactory: CardsFactory;
@@ -12,7 +14,7 @@ export class CardsService implements ICardsService {
     this.cardsFactory = new CardsFactory();
   }
 
-  // TODO move to domain validator
+  // TODO move to a validator object
   protected validatePublishing (card: ICard) {
     if (!card.published) {
       return true;
@@ -25,26 +27,26 @@ export class CardsService implements ICardsService {
     return hasName && hasImage && hasRarity
   }
 
-  async getById (cardId: string) {
-    return await this.cardsRepository.getById(cardId);
+  async getById (cardId: string, owner: string) {
+    return await this.cardsRepository.getById(cardId, owner);
   }
 
-  async getAll () {
-    return await this.cardsRepository.getAll();
+  async getAll (owner: string) {
+    return await this.cardsRepository.getAll(owner);
   }
 
-  async create (data: any) {
+  async create (data: any, owner: string) {
     if (!this.validatePublishing(data)) {
       return null;
     }
 
-    const card = await this.cardsFactory.create(data);
-    const result = await this.cardsRepository.save([ data ]);
+    const card = await this.cardsFactory.create(data, owner);
+    const result = await this.cardsRepository.save([ data ], owner);
 
     return result && card || null;
   }
 
-  async update (data: any) {
+  async update (data: any, owner) {
     const multipleData = (data && !data.length && [ data ]) || data;
 
     // We should obtain the full data of a card to update required attributes
@@ -60,7 +62,7 @@ export class CardsService implements ICardsService {
     }, []);
 
     // Retrieve cards with missing info
-    const missingCardsData = await this.cardsRepository.getByIds(missingCardIds);
+    const missingCardsData = await this.cardsRepository.getByIds(missingCardIds, owner);
 
     // Filter the input array with just the Cards validated
     const validatedData = multipleData.filter((card) => {
@@ -76,6 +78,20 @@ export class CardsService implements ICardsService {
       return this.validatePublishing(fullCard);
     });
 
-    return await this.cardsRepository.save(validatedData);
+    return await this.cardsRepository.save(validatedData, owner);
+  }
+
+  // Just a fake cards generator to have some dummy content in database
+  async fakesGenerator (owner: string, total: number) {
+    const cards: ICard[] = Array(total).fill(null).map(() => ({
+      owner,
+      name: faker.commerce.productName(),
+      image: faker.image.imageUrl(),
+      rarity: 'rare',
+      type: 'regular',
+      published: true
+    }));
+
+    return await Promise.all(cards.map(async (card) => await this.create(card, owner)));
   }
 }
