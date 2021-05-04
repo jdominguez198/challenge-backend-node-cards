@@ -6,7 +6,7 @@
   "scripts": {
     "build:clean": "rimraf dist",
     "build": "yarn build:clean && tsc",
-    "start:prod": "tsc && NOVE_ENV=production node dist/index.js",
+    "start:prod": "yarn build:clean && tsc && NOVE_ENV=production node dist/index.js",
     "start:pm2": "NOVE_ENV=production pm2-runtime ecosystem.config.js",
     "start:dev": "yarn build:clean && tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"

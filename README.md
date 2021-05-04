@@ -74,3 +74,33 @@ valuable things for the position.
 
 **Resources**
 - MongoDB Cloud Atlas Free Tier Cluster https://docs.atlas.mongodb.com/tutorial/deploy-free-tier-cluster/
+
+## Run the code
+
+### Using host machine
+
+1. Use `yarn install` to download all dependencies.
+2a. Run `yarn start:dev` to bring up development server.
+2b. Run `yarn start:prod` to bring up production server.
+
+### Using Docker
+
+Use `docker-compose up` at root folder and wait for all images are built and services are up.
+Then, use Postman to request the endpoints described in section Endpoints.
+
+## Endpoints
+
+By default, the url to connect to the API will be http://localhost:8888/ and should be referenced as base url 
+for the following endpoints.
+
+### GET `/v1/cards`
+
+### GET `/v1/cards/:cardId`
+
+### POST `/v1/cards`
+
+### PUT `/v1/cards`
+
+### PUT `/v1/cards/publish`
+
+### PUT `/v1/cards/unpublish`
