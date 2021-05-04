@@ -1,13 +1,13 @@
-import { ICacheClient } from '../../api/cacheClient.interface';
-import { CardModel, ICard } from '../../models/cards';
+import { ICacheClient } from '../../domain/ports/CacheClient.interface';
+import { CardModel, ICard } from './CardModel';
 
-export class CardRepository {
+export class CardsRepository {
   CACHE_KEY_CARDS = 'cards';
 
   protected cacheClient: ICacheClient;
 
   constructor({ cacheClient }) {
-    this.cacheClient = cacheClient;
+    this.cacheClient = cacheClient as ICacheClient;
   }
 
   async getById (cardId: string): Promise<ICard> {

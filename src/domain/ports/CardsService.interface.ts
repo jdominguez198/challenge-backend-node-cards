@@ -1,4 +1,4 @@
-import { ICardModel } from './cardModel.interface';
+import { ICardModel } from "./CardModel.interface";
 
 export interface ICardsService {
   getById (cardId: string): Promise<ICardModel>,

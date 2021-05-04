@@ -2,12 +2,13 @@
   "name": "challenge-backend-node-cards",
   "version": "0.1.0",
   "description": "## Introduction",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "start:prod": "tsc && NOVE_ENV=production node dist/server.js",
+    "build:clean": "rimraf dist",
+    "build": "yarn build:clean && tsc",
+    "start:prod": "tsc && NOVE_ENV=production node dist/index.js",
     "start:pm2": "NOVE_ENV=production pm2-runtime ecosystem.config.js",
-    "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
+    "start:dev": "yarn build:clean && tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

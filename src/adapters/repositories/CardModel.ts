@@ -1,5 +1,5 @@
 import { model, Schema, Model, Document } from 'mongoose';
-import { ICardModel } from '../../api/cardModel.interface';
+import { ICardModel } from '../../domain/ports/CardModel.interface';
 
 export interface ICard extends Document, ICardModel {}
 
@@ -33,15 +33,9 @@ const CardSchema: Schema = new Schema({
     type: Number,
     required: false,
     default: 0
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
+},{
+  timestamps: true
 });
 
 export const CardModel: Model<ICard> = model<ICard>('card', CardSchema);

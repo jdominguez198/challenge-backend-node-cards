@@ -1,6 +1,6 @@
-import { CardModel } from '../../models/cards';
+import { CardModel } from './CardModel';
 
-export class CardFactory {
+export class CardsFactory {
   async create (data) {
     try {
       return await CardModel.create(data);

@@ -1,7 +1,7 @@
 import redis from 'redis';
 import util from 'util';
 import config from 'config';
-import { ICacheClient } from '../api/cacheClient.interface';
+import { ICacheClient } from '../../domain/ports/CacheClient.interface';
 
 const client = redis.createClient({
   host: config.get('cache.hostname'),
