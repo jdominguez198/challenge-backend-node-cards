@@ -80,8 +80,9 @@ valuable things for the position.
 ### Using host machine
 
 1. Use `yarn install` to download all dependencies.
-2a. Run `yarn start:dev` to bring up development server.
-2b. Run `yarn start:prod` to bring up production server.
+2. Depending on environment you can:
+   - a. Run `yarn start:dev` to bring up development server.
+   - b. Run `yarn start:prod` to bring up production server.
 
 ### Using Docker
 
