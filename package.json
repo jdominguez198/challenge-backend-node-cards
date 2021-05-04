@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/jdominguez198/challenge-backend-node-cards#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "config": "^3.3.6",
     "express": "^4.17.1",

@@ -8,8 +8,10 @@ import faker from 'faker';
 export class CardsService implements ICardsService {
   protected cardsRepository: CardsRepository;
   protected cardsFactory: CardsFactory;
+  protected eventsHandler;
 
-  constructor ({ cacheClient }) {
+  constructor ({ cacheClient, eventsHandler }) {
+    this.eventsHandler = eventsHandler;
     this.cardsRepository = new CardsRepository({ cacheClient });
     this.cardsFactory = new CardsFactory();
   }
@@ -41,7 +43,9 @@ export class CardsService implements ICardsService {
     }
 
     const card = await this.cardsFactory.create(data, owner);
-    const result = await this.cardsRepository.save([ data ], owner);
+    const result = await this.cardsRepository.save([ card ], owner);
+
+    await this.eventsHandler.dispatch('cardCreated', card);
 
     return result && card || null;
   }
@@ -78,7 +82,11 @@ export class CardsService implements ICardsService {
       return this.validatePublishing(fullCard);
     });
 
-    return await this.cardsRepository.save(validatedData, owner);
+    const resultCard = await this.cardsRepository.save(validatedData, owner);
+
+    await this.eventsHandler.dispatch('cardUpdated', resultCard);
+
+    return resultCard;
   }
 
   // Just a fake cards generator to have some dummy content in database

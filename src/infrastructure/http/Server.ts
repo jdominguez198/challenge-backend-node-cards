@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import config from 'config';
 
 export class Server {
-  providersResolver: any;
-  appInstance: express.Express;
+  protected providersResolver: any;
+  protected appInstance: express.Express;
+  protected rootPathMessage = 'Welcome to Cards API REST!';
 
   constructor (providersResolver: any) {
     this.appInstance = express();
@@ -15,6 +16,7 @@ export class Server {
   async initializeProviders () {
     const providers = this.providersResolver(this.appInstance);
     await providers.DBConnection();
+    providers.analytics.map((provider => provider.init()));
   }
 
   getPort () {
@@ -29,7 +31,7 @@ export class Server {
 
   setBaseRoutes () {
     this.appInstance.get('/', (request, response) => {
-      response.send('Welcome to Cards API REST!');
+      response.send(this.rootPathMessage);
     });
   }
 
