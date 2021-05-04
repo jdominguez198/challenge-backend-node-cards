@@ -1,7 +1,7 @@
 import { model, Schema, Model, Document } from 'mongoose';
-import { ICardModel } from '../../domain/ports/CardModel.interface';
+import { ICard } from '../../domain/ports/Card.interface';
 
-export interface ICard extends Document, ICardModel {}
+export interface ICardModel extends Document, ICard {}
 
 const CardSchema: Schema = new Schema({
   name: {
@@ -38,4 +38,5 @@ const CardSchema: Schema = new Schema({
   timestamps: true
 });
 
-export const CardModel: Model<ICard> = model<ICard>('card', CardSchema);
+
+export const CardModel: Model<ICardModel> = model<ICardModel>('card', CardSchema);

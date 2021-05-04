@@ -1,4 +1,5 @@
-export interface ICardModel {
+export interface ICard {
+  _id?: any,
   name: string,
   image: string,
   rarity: string,

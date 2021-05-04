@@ -1,5 +1,6 @@
 import { ICacheClient } from '../../domain/ports/CacheClient.interface';
-import { CardModel, ICard } from './CardModel';
+import { ICard } from '../../domain/ports/Card.interface';
+import { CardModel } from './CardModel';
 
 export class CardsRepository {
   CACHE_KEY_CARDS = 'cards';
@@ -12,7 +13,21 @@ export class CardsRepository {
 
   async getById (cardId: string): Promise<ICard> {
     try {
-      return await CardModel.findById(cardId);
+      const result = await CardModel.findById(cardId);
+
+      return result.toObject();
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async getByIds (cardIds: string[]): Promise<ICard[]> {
+    try {
+      const result = await CardModel.find({
+        '_id': { $in: cardIds }
+      });
+
+      return result.map((card) => card.toObject());
     } catch (error) {
       return null;
     }
@@ -26,14 +41,17 @@ export class CardsRepository {
     }
 
     const result = await CardModel.find({});
-    await this.cacheClient.set(cacheKey, result);
+    const output = result.map((card) => card.toObject());
+    await this.cacheClient.set(cacheKey, output);
 
-    return result;
+    return output;
   }
 
   async create (card: ICard): Promise<ICard> {
     try {
-      return await CardModel.create(card);
+      const result = await CardModel.create(card);
+
+      return result.toObject();
     } catch (error) {
       return null;
     }
