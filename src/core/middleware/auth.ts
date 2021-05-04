@@ -1,4 +1,4 @@
-import { IAuthService } from '../../domain/ports/AuthService.interface';
+import { IAuthService } from '../../domain/interfaces/AuthService.interface';
 
 const extractBearer = (authorization) => authorization.replace('Bearer ', '');
 

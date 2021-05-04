@@ -1,5 +1,5 @@
-import { ICacheClient } from '../../domain/ports/CacheClient.interface';
-import { ICard } from '../../domain/ports/Card.interface';
+import { ICacheClient } from '../../domain/interfaces/CacheClient.interface';
+import { ICard } from '../../domain/interfaces/Card.interface';
 import { CardModel } from './CardModel';
 
 export class CardsRepository {

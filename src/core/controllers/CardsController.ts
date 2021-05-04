@@ -1,4 +1,4 @@
-import { ICardsService } from '../../domain/ports/CardsService.interface';
+import { ICardsService } from '../../domain/interfaces/CardsService.interface';
 
 export class CardsController {
   protected appInstance: any;

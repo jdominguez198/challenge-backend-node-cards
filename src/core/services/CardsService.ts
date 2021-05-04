@@ -1,7 +1,7 @@
-import { ICardsService } from '../../domain/ports/CardsService.interface';
-import { CardsRepository } from '../repositories/CardsRepository';
-import { CardsFactory } from '../repositories/CardsFactory';
-import { ICard } from '../../domain/ports/Card.interface';
+import { ICardsService } from '../../domain/interfaces/CardsService.interface';
+import { CardsRepository } from '../../persistence/cards/CardsRepository';
+import { CardsFactory } from '../../persistence/cards/CardsFactory';
+import { ICard } from '../../domain/interfaces/Card.interface';
 
 import faker from 'faker';
 

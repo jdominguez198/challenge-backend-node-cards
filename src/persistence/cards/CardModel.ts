@@ -1,5 +1,5 @@
 import { model, Schema, Model, Document } from 'mongoose';
-import { ICard } from '../../domain/ports/Card.interface';
+import { ICard } from '../../domain/interfaces/Card.interface';
 
 export interface ICardModel extends Document, ICard {}
 

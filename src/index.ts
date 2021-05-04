@@ -1,5 +1,5 @@
 import { Server } from './infrastructure/http/Server';
-import providersResolver from './adapters/providers';
+import providersResolver from './core/providers';
 
 const server = new Server(providersResolver);
 
