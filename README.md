@@ -77,17 +77,22 @@ valuable things for the position.
 
 ## Run the code
 
+### Using Docker
+
+Use `docker-compose up` at root folder and wait for all images are built and services are up.
+Then, use Postman to request the endpoints described in section Endpoints.
+
 ### Using host machine
 
 1. Use `yarn install` to download all dependencies.
 2. Depending on environment you can:
    - a. Run `yarn start:dev` to bring up development server.
    - b. Run `yarn start:prod` to bring up production server.
+    
+Also, you can run the unit tests by typing `yarn test:unit`.
 
-### Using Docker
-
-Use `docker-compose up` at root folder and wait for all images are built and services are up.
-Then, use Postman to request the endpoints described in section Endpoints.
+_NOTE_: You can use services from `docker-compose.yml` if you don't want to install them
+in your host machine. Just comment the `server` service lines and run it with `docker-compose up`.
 
 ## Endpoints
 
